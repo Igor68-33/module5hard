@@ -15,20 +15,20 @@ class UrTube:
         self.videos = list()
         self.current_user = None
 
-    def log_in(self, nickname, password_l):
+    def log_in(self, nickname, password):
         if nickname in self.users:
-            if hash(self.users[self.users.index(nickname)].password) == hash(password_l):
+            if self.users[self.users.index(nickname)].password == hash(password):
                 self.current_user = self.users[self.users.index(nickname)]
             else:
                 print('Пароль не верен.')
         else:
             print(f"Пользователь {nickname} не существует")
 
-    def register(self, nickname, password_r, age_r):
+    def register(self, nickname, password, age):
         if nickname in self.users:
             print(f"Пользователь {nickname} уже существует")
         else:
-            user = User(nickname, password_r, age_r)
+            user = User(nickname, hash(password), age)
             self.users.append(user)
             self.current_user = user
 
@@ -50,10 +50,10 @@ class UrTube:
         if self.current_user is None:
             print("Войдите в аккаунт, чтобы смотреть видео")
         elif track in self.videos:
-            if self.videos[self.videos.index(track)].adult_mode is True and self.current_user.age < 18:
+            track_number = self.videos.index(track)
+            if self.videos[track_number].adult_mode is True and self.current_user.age < 18:
                 print("Вам нет 18 лет, пожалуйста покиньте страницу")
             else:
-                track_number = self.videos.index(track)
                 while self.videos[track_number].time_now < self.videos[track_number].duration:
                     time.sleep(0)  # 0 заменить на 1
                     self.videos[track_number].time_now += 1
@@ -80,7 +80,7 @@ class Video:
     def __eq__(self, other):
         return self.title == other
 
-    def __repr__(self):
+    def __str__(self):
         return self.title
 
 
@@ -97,7 +97,7 @@ class User:
         self.password = password
         self.age = age
 
-    def __repr__(self):
+    def __str__(self):
         return self.username
 
     def __eq__(self, other):
