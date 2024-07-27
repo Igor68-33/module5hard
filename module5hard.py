@@ -55,7 +55,7 @@ class UrTube:
                 print("Вам нет 18 лет, пожалуйста покиньте страницу")
             else:
                 while self.videos[track_number].time_now < self.videos[track_number].duration:
-                    time.sleep(0)  # 0 заменить на 1
+                    time.sleep(1)  # задержка времени
                     self.videos[track_number].time_now += 1
                     print(self.videos[track_number].time_now, end=' ')
                 self.videos[track_number].time_now = 0
